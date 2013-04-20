@@ -9,6 +9,7 @@ var Server = mongo.Server,
  
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new Db('scores', server);
+var port = process.env.PORT || 3000;
 
 app.post('/submit.json', function(req, res) {
 	res.header("Access-Control-Allow-Origin","*");
@@ -25,7 +26,7 @@ app.post('/submit.json', function(req, res) {
 				res.send({'error': 'there was an error'});
 			} 
 		});
-		});	
+	});	
 });
 
 app.get('/highscores.json', function(req, res) {
@@ -57,7 +58,7 @@ app.get('/searchresults', function(req, res) {
 	var search = req.query.username;
 	
     db.collection('scores', function(err, collection) {
-        collection.find({username: search}).sort({score: -1}).limit(10).toArray(function(err, items) {
+        collection.find({username: search}).sort({score: -1}).toArray(function(err, items) {
             res.send(items);
         });
     });	
