@@ -19,38 +19,25 @@ app.post('/submit.json', function(req, res) {
 	var score = parseInt(req.body.score);
 	var created_at = Date();
 	var toInsert = {"game_title":game_title,"username":username,"score":score,"created_at":created_at};
-		
-	console.log('Adding item: ' + JSON.stringify(toInsert));
-	
+			
 	db.collection('scores', function(err, collection) {
 		collection.insert(toInsert, {safe:true}, function(err, result) {
 			if (err) {
-				console.log(err);
 				res.send({'error': 'there was an error'});
-			} else {
-				console.log('success' + JSON.stringify(result[0]));
-				res.send(result[0]);
-			}
+			} 
 		});
 		});
 		
 });
 
 app.get('/highscores.json', function(req, res) {
-	var game_title = req.query.game_title;
-	  db.collection('scores', function(err, collection) {
-        collection.findOne({'game_title':new BSON.ObjectID(game_title)}, function(err, item) {
-            res.send(item);
+	var search = req.query.game_title;
+
+    db.collection('scores', function(err, collection) {
+        collection.find({game_title: search}).toArray(function(err, items) {
+            res.send(items);
         });
     });
-	//res.send(game_title);
-	//db.collection('scores', function(err, collection) {
-	//	collection.findOne({'game_title':new BSON.ObjectID(game_title)}, function(err,item) {
-	//		res.send(item);
-	//		});
-	//	}):
-	//db.scores.find().sort({age: -1}).limit(10);
-
 });
 
 app.get('/', function(req, res) {
