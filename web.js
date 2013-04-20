@@ -10,6 +10,7 @@ var Server = mongo.Server,
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new Db('scores', server);
 var port = process.env.PORT || 3000;
+app.set('port', process.env.PORT || 3000);
 
 app.post('/submit.json', function(req, res) {
 	res.header("Access-Control-Allow-Origin","*");
@@ -64,5 +65,5 @@ app.get('/searchresults', function(req, res) {
     });	
 });
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+app.listen(port);
+listen(app.get('port'));
