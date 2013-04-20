@@ -12,6 +12,8 @@ db = new Db('scores', server);
  
 
 app.post('/submit.json', function(req, res) {
+	res.header("Access-Control-Allow-Origin","*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var game_title = req.body.game_title;
 	var username = req.body.username;
 	var score = parseInt(req.body.score);
