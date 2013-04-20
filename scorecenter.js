@@ -38,18 +38,21 @@ app.post('/submit.json', function(req, res) {
 
 app.get('/highscores.json', function(req, res) {
 	var game_title = req.query.game_title;
-	console.log(game_title);
-	db.collection('scores', function(err, collection) {
-		collection.findOne({'game_title':new BSON.ObjectID(game_title)}, function(err,item) {
-			res.send(item);
-			});
-		}):
+	  db.collection('scores', function(err, collection) {
+        collection.findOne({'game_title':new BSON.ObjectID(game_title)}, function(err, item) {
+            res.send(item);
+        });
+    });
+	//res.send(game_title);
+	//db.collection('scores', function(err, collection) {
+	//	collection.findOne({'game_title':new BSON.ObjectID(game_title)}, function(err,item) {
+	//		res.send(item);
+	//		});
+	//	}):
 	//db.scores.find().sort({age: -1}).limit(10);
 
 });
 
-
-/*
 app.get('/', function(req, res) {
     db.collection('scores', function(err, collection) {
         collection.find().toArray(function(err, items) {
@@ -57,7 +60,7 @@ app.get('/', function(req, res) {
         });
     });
 });
-
+/*
 app.get('/usersearch', function(req, res) {
 
 });
